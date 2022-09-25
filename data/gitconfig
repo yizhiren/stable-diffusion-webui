@@ -1,0 +1,4 @@
+[url "https://gitclone.com/"]
+	insteadOf = https://
+[http]
+	version = HTTP/1.1

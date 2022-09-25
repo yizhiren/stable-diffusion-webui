@@ -94,7 +94,7 @@ from PIL import Image, ImageFont, ImageDraw, ImageFilter, ImageOps, ImageChops
 from io import BytesIO
 import base64
 import re
-from torch import autocast
+from torch.cuda.amp import autocast
 from ldm.models.diffusion.ddim import DDIMSampler
 from ldm.models.diffusion.plms import PLMSSampler
 from ldm.util import instantiate_from_config
@@ -980,7 +980,7 @@ def process_images(
         output_images = []
     grid_captions = []
     stats = []
-    with torch.no_grad(), precision_scope("cuda"), (model.ema_scope() if not opt.optimized else nullcontext()):
+    with torch.no_grad(), precision_scope(True), (model.ema_scope() if not opt.optimized else nullcontext()):
         init_data = func_init()
         tic = time.time()
 
