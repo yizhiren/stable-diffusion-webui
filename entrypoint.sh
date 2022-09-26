@@ -58,7 +58,7 @@ validateDownloadModel() {
 
 
 # Validate model files
-if [ $VALIDATE_MODELS == "false" ]; then
+if [[ ! -z $VALIDATE_MODELS && $VALIDATE_MODELS == "true" ]]; then
     echo "Skipping model file validation..."
 else
     echo "Validating model files..."

@@ -1,4 +1,4 @@
-FROM nvidia/cuda:11.3.1-runtime-ubuntu20.04
+FROM nvidia/cuda:11.2.2-runtime-ubuntu20.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 WORKDIR /install
@@ -29,15 +29,11 @@ RUN conda create -n ldm -y python=3.8.5 && conda init bash && echo "conda activa
 SHELL ["conda", "run", "--no-capture-output", "-n", "ldm", "/bin/bash", "-c"]
 
 # install basic dep
-RUN conda install git pip && conda config --show-sources && git config --list && pip config list
-RUN conda install cudatoolkit=11.3 pytorch=1.12.1 torchvision=0.13.0 numpy
+RUN conda install git pip pytorch-gpu torchvision numpy && conda config --show-sources && git config --list && pip config list
 
 # install required deps
 COPY ./sd_requirements.txt /install/
 RUN pip install -r /install/sd_requirements.txt
-
-COPY ./requirements.txt /install/
-RUN pip install -r /install/requirements.txt
 
 COPY ./ext_requirements.txt /install
 RUN pip install -r /install/ext_requirements.txt
@@ -45,8 +41,8 @@ RUN pip install -r /install/ext_requirements.txt
 COPY ./ui_requirements.txt /install/
 RUN pip install -r /install/ui_requirements.txt
 
-# workaround: pytorch removed after install requirements.txt
-RUN conda uninstall pytorch torchvision && conda install pytorch=1.12.1 torchvision=0.13.0
+COPY ./requirements.txt /install/
+RUN pip install -r /install/requirements.txt
 
 COPY ./entrypoint.sh /sd/
 ENTRYPOINT /sd/entrypoint.sh
