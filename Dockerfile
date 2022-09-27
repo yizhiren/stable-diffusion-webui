@@ -44,6 +44,9 @@ RUN pip install -r /install/ui_requirements.txt
 COPY ./requirements.txt /install/
 RUN pip install -r /install/requirements.txt
 
+# workaround, reinstall
+RUN conda list | grep torch && conda install pytorch-gpu torchvision && conda list | grep torch
+
 COPY ./entrypoint.sh /sd/
 ENTRYPOINT /sd/entrypoint.sh
 
