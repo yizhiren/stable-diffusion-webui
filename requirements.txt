@@ -10,7 +10,7 @@ taming-transformers-rom1504==0.0.6  # required by ldm
 # -e git+https://github.com/CompVis/taming-transformers.git@master#egg=taming-transformers # required by ldm
 # Note: taming package needs to be installed with -e option
 
-
+git+https://github.com/openai/CLIP # write this line to speedup torch version selection
 git+https://github.com/crowsonkb/k-diffusion.git
 # Note: K-diffusion brings in CLIP 1.0 as a dependency automatically; will create a dependency resolution conflict when explicitly specified together
 # git+https://github.com/openai/CLIP.git@main#egg=clip
